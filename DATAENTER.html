@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructions</title>
+    <link rel="stylesheet"href="DATAENTER.css">
+</head>
+<body>
+    <header>
+        <div class="head">
+            <p>Rules and Instructions</p>
+        </div>
+    </header>
+    <main>
+        <div class="m1">
+            <div class="m1_1">
+                <h2>Important Instructions</h2>
+            </div>
+            <div class="m1_2">
+               <h3 id="it"><span id="ec">Time Limit</span>: will have 60 minutes to complete the coding exam on data structures</h3>
+               <h3 id="it"><span id="ec">Submission</span>:Solve all questions,run your code to check test Cases, and submit before the timer eds</h3>
+               <h3 id="it"><span id="ec">Cases</span> : Each question will have multiple hidden test cases to validate your solution</h3>
+               <h3 id="it"><span id="ec">Evaluation</span>:Your code will be automatically evaluated. Ensure it meets the nput/output requirements and passes all test casesto get full points</h3>
+            </div>
+        </div>
+        <div class="m2">
+            <div class="m2_1">
+                <h2>Exam Guidelines</h2>
+            </div>
+            <div class="m2_2">
+                <h3 id="it">● Read inputs from standard input(e.g Scanner,input).</h3>
+                <h3 id="it">● Print Output to standard output(e.g System.out,print())</h3>
+                <h3 id="it">● No external resources or assistance allowed</h3>
+                <h3 id="it">● Your submissions will be auto_evaluated</h3>
+                <h3 id="it">● Do Not Go back When Exam Starts it will close exam </h3>
+            </div>
+        </div>
+        <div class="m3">
+           <h3>⚠️ Do Not navigate away from the test window. Any suspicious activity may lead to disqualification</h3>
+        </div>
+        <div class="m4">
+            <button id="btn">I Agree & Begin Test</button>
+        </div>
+    </main>
+    <script>
+         let btn=document.querySelector("#btn");
+             btn.addEventListener("click",()=>{
+                let exam_id=Date.now();
+                localStorage.setItem("exam_id",exam_id);
+                  fetch("http://localhost:3000/ds_questions",{
+                      method:'GET',
+                      headers:{'content-Type':'application/json'},
+                      }).then(result=>result.json())
+                      .then(data=>{
+                      let ids = data.map(q => q.Question_id);
+                      sessionStorage.setItem("questionIds", JSON.stringify(ids));
+                      window.location.href="Data.html"})})
+            </script>
+</body>
+</html>

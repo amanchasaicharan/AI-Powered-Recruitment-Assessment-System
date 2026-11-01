@@ -1,0 +1,41 @@
+body{
+    background-color: #e5e5e5;
+}
+.main{
+    margin: 30px;
+    background-color:#ffffff;
+    height:2900px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 2px solid beige;
+    border-radius: 10px;
+}
+.line{
+    border: none;
+    height: 2px;
+    background-color: #e5e5e5;
+    margin: 20px 0;
+}
+#time{
+    display: flex;
+    justify-content: center;
+}
+#guape{
+    margin-left: 20px;
+}
+#q1{
+    font-size: 20px;
+    margin-right: 20px;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+}
+button{
+    background-color: black;
+    color: white;
+    height: 50px;
+    width: 170px;
+    font-size: 30px;
+    font-style:italic;
+    border-radius: 3px;
+}

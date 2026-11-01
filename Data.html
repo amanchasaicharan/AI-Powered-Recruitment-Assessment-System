@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"href="Data.css">
+</head>
+<body>
+    <navbar>
+        <div class="header">
+            <div class="statement3">MiniCode</div>
+            <div class="statement3">Question 1 out 3</div>
+            <div class="statement3">
+                <div class="time"id="time">30:00</div>
+                <div class="submit"><button id="s1">Submit</button></div>
+            </div>
+        </div>                                                    
+    </navbar>
+    <main>
+        <div class="main">
+        <div class="box"id="main1">
+           <div id="main1_1"class="box1">
+            <h2>Problem</h2>
+           </div>
+           <div id="main1_2"class="box1">
+            <h2 id="n1">Two Sum</h2>
+            <button id="level">Medium</button>
+           </div>
+           <div id="main1_3"class="box2">
+
+           </div>
+           <div id="main1_4">
+                    <div id="example">
+                        <h3>Example :</h3>
+                    </div>
+                    <div class="space"></div>
+                    <div id="example_qus"class="box2" style="white-space: pre-line;"></div>
+           </div>
+           <div class="space"></div>
+           <div id="main1_5">
+                  <div class="constraints">
+                    <h2>constraints :</h2>
+                  </div>
+                  <div class="space"></div>
+                  <div class="constraints_1"style="font-size:20px">
+
+                  </div>
+           </div>
+            <div class="next">
+            <button id="s3">NEXT</button>
+            </div>
+        </div>
+        <div class="box"id="main2">
+             <div class="code">
+                <h2>Code Editor</h2>
+             </div>
+             <div class="main2_1">
+                <div class="drop">
+                    <select id="lang">
+                        <option value="java">Java</option>
+                        <option value="c++">c++</option>
+                        <option value="python">python</option>
+                    </select>
+                </div>
+                <div class="testing">
+                    <div class="run"><button id="Run"onclick="func()">Run Code</button></div>
+                    <div class="submit"><button id="s2">Submit</button></div>
+                </div>
+             </div>
+             <div class="space"></div>
+             <div class="space"></div>
+             <div class="space"></div>
+             <div class="main2_2">
+                <textarea id="textCode"spellcheck="false">
+          // Write Your Full Code Here
+                </textarea>
+             </div>
+        </div>
+        </div>
+    </main>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="space"></div>
+    <footer>
+        <div class="footer">
+            <div class="testcases"id="opt">
+                 <div class="opt_3">
+                    <h3 style="text-decoration:underline ;"><b>Test Result</b></h3>
+                 </div>
+                 <div class="space"></div>
+                    <div class="opt_1"id="op">
+                            <h3 style="color: green;">Test Case 1 </h3>
+                    </div>
+                    <div class="opt_2"id="op">
+                        <h4 id="op_1"style="font-size:20px">hii</h4>
+                    </div>
+                    <div class="opt_3"id="op">
+                        <h3 style="color: green;">Test Case 2</h3>
+                    </div>
+                    <div class="opt_4"id="op">
+                        <h4 id="op_2"style="font-size:20px">hii</h4>
+                    </div>
+            </div>
+            <div class="output"id="opt">
+                <div class="opt_1">
+                    <h2>Output</h2>
+                </div>
+                <div class="opt_2">
+                    <textarea rows="15"cols="90"id="outtext"spellcheck="false"></textarea>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+               let StartQuestionTime;
+               let examStartTime;
+               let endQuestionTime;
+               let examEndTime;
+               let solve;
+               let OverAllScore;
+               let exam_id;
+               let ids = JSON.parse(sessionStorage.getItem("questionIds"));
+               let currentIndex = 0;
+                window.onload = function(){
+                    examStartTime = Date.now();
+                    exam_id=localStorage.getItem("exam_id");
+                    startExamTimer();
+                    loadQuestion();};
+                let score=0;
+
+        function func(){
+            let code=document.querySelector("#textCode").value;
+            let lang=document.querySelector("#lang").value;
+            if(lang=="java"){
+               fetch("http://localhost:3000/run-java",{
+               method:"POST",
+               headers:{
+               "Content-Type":"application/json"},
+               body:JSON.stringify({code:code,question_id: ids[currentIndex]})})
+               .then(res=>res.json())
+               .then(data=>{
+                document.querySelector("#op_1").innerText=data.results[0];
+                document.querySelector("#op_2").innerText=data.results[1];
+                score+=data.score;
+                solve=data.allPassed;
+                  });
+             }
+             else{
+                 fetch("http://localhost:3000/run-python",{
+                  method:"POST",
+                  headers:{
+                  "Content-Type":"application/json"},
+                  body:JSON.stringify({code:code})})
+                 .then(res=>res.text())
+                 .then(data=>{
+                  document.getElementById("outtext").innerText=data;});
+                }
+            }
+            function loadQuestion(){
+                  fetch("http://localhost:3000/load_questions?id="+ids[currentIndex],{
+                    method:'GET',
+                  }).then(result=>result.json())
+                  .then(data=>{
+                    document.querySelector("#n1").innerText=data[0].Question_name;
+                    document.querySelector("#level").innerText=data[0].Difficulty_level;
+                    document.querySelector("#main1_3").innerText=data[0].Description_1;
+                    document.querySelector("#example_qus").innerText=data[0].Example;
+                    document.querySelector(".constraints_1").innerText=data[0].Constraints;
+                  })   
+                   StartQuestionTime=Date.now();
+               fetch("http://localhost:3000/test?id="+ids[currentIndex],{
+                 method:'GET',
+               }).then(result=>result.json())
+               .then(data=>{
+                console.log(data);
+               })
+
+               fetch("http://localhost:3000/start_exam",{
+                method:'POST',
+                headers:{
+                    "Content-Type":"application/json"},
+                    body:JSON.stringify({exam_id:exam_id})})    
+            }
+            let s2=document.querySelector("#s2");
+            s2.addEventListener("click",()=>{
+                      endQuestionTime=Date.now();
+                       let time=(endQuestionTime-StartQuestionTime)/1000;
+                    fetch("http://localhost:3000/score_question",{
+                      method: "POST",
+                      headers:{
+                      "Content-Type": "application/json"},
+                      body:JSON.stringify({
+                      question_id: ids[currentIndex],
+                      exam_id:exam_id,
+                      score: score,
+                      time: time,
+                      passed: solve })})
+                      score=0;})
+
+
+
+            let s3=document.querySelector("#s3");
+            s3.addEventListener("click",()=>{
+                document.querySelector("#op_1").innerText="";
+                document.querySelector("#op_2").innerText="";
+                document.querySelector("#textCode").value="// Write Your Full Code Here";
+                 StartQuestionTime=Date.now();
+                currentIndex++;
+                 fetch("http://localhost:3000/load_questions?id="+ids[currentIndex],{
+                    method:'GET',
+                  }).then(result=>result.json())
+                  .then(data=>{
+                    document.querySelector("#n1").innerText=data[0].Question_name;
+                    document.querySelector("#level").innerText=data[0].Difficulty_level;
+                    document.querySelector("#main1_3").innerText=data[0].Description_1;
+                    document.querySelector("#example_qus").innerText=data[0].Example;
+                    document.querySelector(".constraints_1").innerText=data[0].Constraints;
+                  })
+            })
+
+            let s1=document.querySelector("#s1");
+            s1.addEventListener("click",()=>{
+                  examEndTime=Date.now();
+                  let finalTimeTaken=((examEndTime-examStartTime)/1000);
+                  fetch("http://localhost:3000/score_total",{
+                    method:'POST',
+                    headers:{
+                        "Content-Type":"application/json"},
+                        body:JSON.stringify({exam_id:exam_id,
+                            finalTimeTaken:finalTimeTaken
+                        })
+                  })
+                  window.location.href="FinalResult.html";
+            })
+
+              /*   let leaveCount = 0;
+                      document.addEventListener("visibilitychange", function(){
+                      if(document.hidden){
+                       leaveCount++;
+                       alert("Warning! Do not leave the exam window.");
+
+                       if(leaveCount > 2){
+                        alert("You left the exam more than 2 times. Exam will be closed.");
+                        window.location.href = "exam_closed.html"; }}});
+
+                        document.addEventListener("copy", e => e.preventDefault());
+                         document.addEventListener("paste", e => e.preventDefault());*/
+
+
+
+                         function startExamTimer(){
+                                  let totalTime = 60*60; // seconds
+                                  let interval = setInterval(() => {
+                                  totalTime--;
+                                  let min = Math.floor(totalTime / 60);
+                                  let sec = totalTime % 60;
+                                document.getElementById("time").innerText = `${min}:${sec < 10 ? '0'+sec : sec}`;
+                                if(totalTime<600){
+                                        document.querySelector("#time").style.color="red";}
+                                if(totalTime <= 0){
+                                       clearInterval(interval);
+                                       alert("Exam Time Over!");
+                                       submitExamAutomatically(500-totalTime);}}, 1000);}
+
+    </script>
+</body>
+</html>

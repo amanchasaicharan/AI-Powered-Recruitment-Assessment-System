@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI HR Interview</title>
+
+  <link rel="stylesheet" href="HrInterveiw.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="card">
+
+      <h1>AI HR Interview System</h1>
+
+      <p class="subtitle">
+        Welcome to the AI-powered voice interview platform
+      </p>
+
+      <div class="section">
+        <h2>Interview Information</h2>
+
+        <p><strong>Interview Type:</strong> Voice Based</p>
+        <p><strong>Duration:</strong> 10 Minutes</p>
+        <p><strong>Total Questions:</strong> 5</p>
+        <p><strong>Evaluation:</strong> AI Based</p>
+      </div>
+
+      <div class="section">
+        <h2>Rules & Instructions</h2>
+
+        <ul>
+          <li>Allow microphone access</li>
+          <li>Sit in a quiet environment</li>
+          <li>Speak clearly and confidently</li>
+          <li>Do not refresh the page</li>
+          <li>Answer honestly</li>
+        </ul>
+      </div>
+
+      <div class="checkbox">
+        <input type="checkbox" id="rules">
+        <label for="rules">
+          I agree to follow all interview rules
+        </label>
+      </div>
+
+      <button id="startBtn">
+        Start Interview
+      </button>
+
+    </div>
+
+  </div>
+
+<script>
+    const startBtn = document.getElementById("startBtn");
+
+    startBtn.addEventListener("click", () => {
+
+    const rules = document.getElementById("rules");
+
+    if(!rules.checked){
+        alert("Please accept the rules");
+        return;
+    }
+    window.open("HrScreen.html");
+    });
+</script>
+
+</body>
+</html>

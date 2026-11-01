@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applitude Test</title>
+    <link rel="stylesheet"href="Applitude.css">
+</head>
+<body>
+       <div class="space"></div>
+       <div class="head">
+        <h1>Applitude Test Categories</h1>
+       </div>
+       <div class="space"></div>
+       <div class="head1">
+        <h2><pre>Select the relevant category below to practise specific tests</pre></h2>
+       </div>
+       <div class="space"></div>
+       <div class="head2">
+          <div class="head2_1"id="box">
+            <div class="head2_1_1"id="ball"></div>
+            <div class="head2_1_2"id="bat"><h1>Verbal Applitude</h1></div>
+          </div>
+          <div class="head2_2"id="box">
+            <div class="head2_2_1"id="ball"></div>
+            <div class="head2_2_2"id="bat"><h1>Logical Applitude</h1></div>
+          </div>
+       </div>
+       <div class="space"></div>
+       <div class="head3">
+         <div class="head3_1"id="box">
+            <div class="head3_1_1"id="ball"></div>
+            <div class="head3_1_2"id="bat"><h1>Numerical Applitude</h1></div>
+         </div>
+         <div class="head3_2"id="box">
+             <div class="head3_2_1"id="ball"></div>
+             <div class="head3_2_2"id="bat"><h1>All Mix</h1></div>
+          </div>
+       </div>
+       <script>      
+       let div1=document.querySelector(".head2_1_1");
+       div1.addEventListener("click",()=>{
+         window.location.href="Verbal.html";
+       })  
+       let div2=document.querySelector(".head2_2_1");
+       div2.addEventListener("click",()=>{
+         window.location.href="logical.html";
+       })  
+       let div3=document.querySelector(".head3_1_1");
+       div3.addEventListener("click",()=>{
+         window.location.href="Numerical.html";
+       })
+       let div4=document.querySelector(".head3_2_1");
+       div4.addEventListener("click",()=>{
+         window.location.href="Allmix.html";
+       })
+       </script>
+</body>
+</html>

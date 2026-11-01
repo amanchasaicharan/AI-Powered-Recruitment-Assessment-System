@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet"href="applitudeRes.css">
+</head>
+<body>
+    <div class="body">
+    <div class="box">
+        <h1>Total Questions: 20</h1>
+        <div class="space"></div>
+        <h1>Correct <input type="text"id="ipt"class="ipt1"></h1>
+        <div class="space"></div>
+        <h1>Wrong <input type="text"id="ipt"class="ipt2"></h1>
+        <div class="space"></div>
+        <h1>Score <input type="text"id="ipt"class="ipt3"></h1>
+        <div class="space"></div>
+        <h1>Eligibility <input type="text"id="ipt"class="ipt4"></h1>
+        <div class="space"></div>
+    </div>
+    </div>
+    <script>
+         let score=localStorage.getItem("finalScore");
+         document.querySelector(".ipt1").value=score;
+         document.querySelector(".ipt2").value=20-score;
+         let per=Math.round((score/20)*100);
+         document.querySelector(".ipt3").value=per+"%";
+         if(per>60){document.querySelector(".ipt4").value="✅";}
+         else{document.querySelector(".ipt4").value="❌";}        
+    </script>
+</body>
+</html>

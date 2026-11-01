@@ -1,0 +1,66 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    background-color: beige;
+}
+.space{
+    height: 30px;
+}
+.head{
+    display: flex;
+    justify-content: center;
+    color: #2e3e4e;
+}
+.head1{
+    display: flex;
+    justify-content: center;
+    color: rgb(67, 60, 60);
+    font-size: 14px;
+}
+#box{
+    height: 330px;
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 2px solid beige;
+    border-radius: 10px;
+    transition: all 0.5s ease-in-out;
+}
+#box:hover{
+    transform: scale(1.05);
+}
+.head2{
+    display: flex;
+    justify-content: space-evenly;
+}
+.head3{
+    display: flex;
+    justify-content: space-evenly;
+}
+#ball{
+    height: 250px;
+}
+.head2_1_1{
+    background-image: url("verbal.png");
+    background-size: cover;
+}
+#bat{
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.head2_2_1{
+    background-image: url("logical.png");
+    background-size: cover;
+}
+.head3_1_1{
+    background-image: url("numerical.png");
+    background-size: cover;
+}
+.head3_2_1{
+    background-image: url("allround.png");
+    background-size: cover;
+}

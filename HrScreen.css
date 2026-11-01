@@ -1,0 +1,49 @@
+*{
+    background-color: green;
+}
+.speaker{
+    display: flex;
+    justify-content: space-between;
+}
+
+.space{
+    height: 100px;
+}
+.speaker1{
+    background-image: url("aiii.webp");
+    background-size: cover;
+}
+
+
+.speaker2{
+    background-image: url("face.avif");
+    background-size: cover;
+}
+
+
+#box{
+    height: 300px;
+    width: 300px;
+    margin-left: 100px;
+    margin-right: 100px;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+.voice{
+    display: flex;
+    justify-content: space-between;
+}
+#bat{
+    margin-left: 150px;
+    margin-right: 150px;
+    font-size: 20px;
+    color: white;
+}
+.mike{
+    display: flex;
+    justify-content: center;
+}
+#mic{
+    background-color: red;
+}
