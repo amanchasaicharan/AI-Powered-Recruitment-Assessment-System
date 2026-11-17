@@ -1,0 +1,41 @@
+body{
+    background-color: bisque;
+}
+#time{
+    display: flex;
+    justify-content: center;
+}
+.main{
+    height: 3040px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    border: 2px solid beige;
+    border-radius: 10px;
+}
+#q1{
+    font-size: 20px;
+    margin-left: 20px;
+}
+.line{
+    border: none;
+    height: 2px;
+    background-color: #e5e5e5;
+    margin: 20px 0;
+}
+#guape{
+    margin-left: 20px;
+}
+.submit_btn{
+    display: flex;
+    justify-content: center;
+}
+button{
+    height: 40px;
+    width: 180px;
+    background-color: green;
+    color:#ffffff;
+    font-size: 20px;
+}
+button:hover{
+    background-color: black;
+}

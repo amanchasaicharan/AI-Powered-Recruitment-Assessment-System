@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"href="HrScreen.css">
+</head>
+<body>
+    <h1 id="time">Time Limit:<span id="timer">2:00</span></h1>
+    <h1 style="display: flex;justify-content: center;color: white;font-size: 45px;">AI HR INTERVEIW</h1>
+    <div class="space"></div>
+    <div class="speaker">
+        <div class="speaker1"id="box">
+        </div>
+        <div class="speaker2"id="box">
+        </div>
+    </div>
+    <div class="voice">
+        <div class="voice1"id="bat">AI</div>
+        <div class="voice2"id="bat">You</div>
+    </div>
+<div class="mike">
+    <button id="mic">
+🎤
+</button>
+</div>
+  <script>
+
+
+
+    const interview = {
+          candidateName: "",
+          currentQuestionIndex: 0,
+          currentAnswer: "",
+          Text:"",
+          answerFinished: false,
+          questions: [
+               "Tell me about yourself.",
+               "What are your strengths?",
+               "What is your biggest weakness?",
+               "Why should we hire you?",
+               "Where do you see yourself in five years?"],
+          answers: [],
+          shouldContinueListening:false,
+          recognition:null,
+          isListening: false,
+          isAISpeaking: false};
+
+
+    function speak(message, callback = null) {
+           interview.isAISpeaking = true;
+           speechSynthesis.cancel();
+           const speech = new SpeechSynthesisUtterance(message);
+                speech.lang = "en-IN";
+                speech.rate = 1;
+                speech.pitch = 1;
+                speech.volume = 1;
+           speech.onend = () => {
+                interview.isAISpeaking = false;
+                console.log("AI Finished Speaking");
+                if (callback) {
+                 callback();}};
+            speechSynthesis.speak(speech);
+    }
+
+
+
+
+
+
+
+
+
+
+    const SpeechRecognition =
+         window.SpeechRecognition || window.webkitSpeechRecognition;
+         
+    if (!SpeechRecognition) {
+    alert("Speech Recognition is not supported in this browser.");}
+     else {
+    interview.recognition = new SpeechRecognition();
+    interview.recognition.lang = "en-IN";
+    interview.recognition.continuous = false;
+    interview.recognition.interimResults = false;
+}
+
+
+
+
+function startListening() {
+
+    if (interview.isAISpeaking) {
+        return;
+    }
+
+    if (interview.isListening) {
+        return;
+    }
+    try {
+        interview.recognition.start();
+    } catch (error) {
+        console.log("Unable to start microphone:", error);
+    }
+
+}
+
+
+
+
+
+
+
+interview.recognition.onstart = () => {
+
+    interview.isListening = true;
+
+    console.log("🎤 Microphone Started");
+};
+
+interview.recognition.onend = () => {
+
+    interview.isListening = false;
+
+    console.log("🎤 Microphone Stopped");
+
+
+    const t1 = interview.Text;
+
+
+    if (t1) {
+
+        interview.currentAnswer += " " + t1;
+
+        interview.currentAnswer =
+            interview.currentAnswer.trim();
+
+    }
+
+    interview.Text = "";
+
+
+
+    if (!interview.answerFinished) {
+
+        console.log("User paused  Continue listening...");
+
+
+        // setTimeout(() => {
+
+        //     startListening();
+
+        // }, 300);
+        startListening();
+
+
+        return;
+    }
+
+    interview.currentAnswer =
+        interview.currentAnswer
+            .replace(/that's it/gi, "")
+            .replace(/thats it/gi, "")
+            .trim();
+
+
+    console.log(
+        "FINAL ANSWER:",
+        interview.currentAnswer
+    );
+
+
+    interview.answers.push(
+        interview.currentAnswer
+    );
+
+    interview.currentAnswer = "";
+
+    interview.answerFinished = false;
+
+
+   
+
+    if (
+        interview.currentQuestionIndex >=
+        interview.questions.length
+    ) {
+
+        alert("All Questions are Completed");
+        fetch("http://localhost:3000/test-ai", { 
+    method: "POST", 
+    headers: { 
+        "Content-Type": "application/json"
+    }, 
+    body: JSON.stringify(interview)
+})
+.then(response => response.json())
+.then(result => { 
+
+    console.log("AI RESULT:", result); 
+
+    sessionStorage.setItem(
+        "interviewResult",
+        JSON.stringify(result)
+    ); 
+
+    window.location.href = "HRFINALRESULT.HTML";
+
+})
+.catch(error => {
+    console.error("AI Evaluation Error:", error);
+});
+
+        console.log(
+            interview.answers
+        );
+
+        return;
+    }
+
+
+
+
+    speak(
+        interview.questions[
+            interview.currentQuestionIndex
+        ],
+        () => {
+
+            interview.currentQuestionIndex++;
+
+            startListening();
+
+        }
+    );
+
+};
+interview.recognition.onerror = (event) => {
+
+    interview.isListening = false;
+
+    console.log("🎤 Recognition Error :", event.error);
+
+};
+
+
+interview.recognition.onresult = (event) => {
+
+    interview.Text =
+        event.results[event.resultIndex][0]
+            .transcript
+            .toLowerCase()
+            .trim();
+
+
+    console.log("Listening result:", interview.Text);
+
+    if (
+        interview.Text.includes("that's it") ||
+        interview.Text.includes("thats it")
+    ) {
+
+        interview.answerFinished = true;
+        console.log("✅ Candidate finished answer");
+    }
+};
+
+function Greeting(){
+    speak("HELLO LETS START OUR INTERVIEW",()=>{
+        askQuestions();
+    });
+}
+
+function askQuestions(){
+    speak(interview.questions[interview.currentQuestionIndex++],()=>{
+        startListening();
+    });
+}
+
+   window.onload=()=>{
+      alert("Interveiw is going to start in 2 minutes.....");
+      setTimeout(()=>{
+         Greeting();
+      },60000);
+    let totalTime=1*60;
+          let timerInterval=setInterval(function(){
+            totalTime--;
+        let minutes=Math.floor(totalTime/60);
+            let seconds=totalTime%60;
+            if(seconds<10){
+               seconds="0"+seconds;
+            }
+            document.querySelector("#timer").innerText=minutes+":"+seconds;
+           if(totalTime<20){
+              document.querySelector("#timer").style.color="red";}
+           if(totalTime<=0){
+                clearInterval(timerInterval);
+                alert("Interview is going to start");
+               Greeting();
+             }
+           },1000);
+   }
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   </script>
+</body>
+</html>

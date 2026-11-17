@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <link rel="stylesheet"href="ATS.css">
+</head>
+<body>
+   <header>
+      <div class="space"></div>
+      <div class="space"></div>
+      <div class="head">
+         <h1>ATS Resume Score AnalyZer</h1>
+      </div>
+      <hr class="line">
+      <div class="space"></div>
+      <div class="head1">
+         <p>Check how well your resume matches job requirements</p>
+      </div>
+   </header>
+   <main>
+      <div class="main_space"></div>
+      <div class="main">
+         <div class="main_space"></div>
+          <div class="main1"id="box">
+             <h2 style="font-size: 28px;"><pre>Select Job Role:</pre></h2>
+          </div>
+          <div class="main_space"></div>
+          <div class="main2"id="box">
+            <select name="Select a Role"id="role">
+               <option value=""disabled selected>Select a Role</option>
+               <option>FrontEnd Developer</option>
+               <option>BackEnd Developer</option>
+               <option>FullStack Developer</option>
+               <option>Java Developer</option>
+            </select>
+          </div>
+           <div class="main_space"></div>
+          <div class="main3"id="box">
+            <h3 style="font-size: 28px;">Paste Your resume here or upload Your file</h3>
+          </div>
+          <div class="main_space"></div>
+          <div class="main4"id="box">
+            <input type="file"accept=".txt"id="file">
+          </div>
+          <div class="main_space"></div>
+          <div class="main_space"></div>
+          <div class="main5"id="box">
+            <button class="Score"onclick="func()">Check ATS Score</button>
+          </div>
+      </div>
+      <div class="main_space"></div>
+      <div class="result">
+         <h1>Eligibility Result:</h1>
+      </div>
+      <div class="main_space"></div>
+      <div class="mainbox">
+         <div class="main_space"></div>
+         <div class="mainbox_1">
+            <p>ATS Score:</p><input type="text"id="info">
+         </div>
+         <hr class="line">
+         <div class="mainbox_2">
+            <p>Mandatory Skills Matched:</p><input type="text"id="info1"><span id="tick"></span>
+         </div>
+         <div class="main_space"></div>
+         <div class="mainbox_3">
+            <p id="p_1">Optional Skills Matched:</p><input type="text"id="info2"><span id="tick1"></span>
+         </div>
+         <div class="main_space"></div>
+         <hr class="line">
+         <div class="mainbox_4">
+            <span id="tick2"></span><h1 style="font-size: 40px;"><pre>Eligible For This Job</pre></h1>
+         </div>
+      </div>
+   </main>
+   <hr class="line">
+   <footer>
+      <div class="foot">
+         <div class="matching"id="foot_1">
+            <div class="match">
+               <h2>Matched Skills</h2>
+            </div>
+            <hr class="line">
+            <div class="match1">
+               <div class="MatchedSkills"id="show">
+                  <ul id="MatchedSkills_1"></ul>
+               </div>
+            </div>
+         </div>
+         <div class="missing"id="foot_1">
+            <div class="miss">
+               <h2>Missing Skills</h2>
+            </div>
+            <hr class="line">
+            <div class="miss1">
+               <ul class="MissedSkills"id="show">
+                  <ul id="MissedSkills_1"></ul>
+               </ul>
+            </div>
+         </div>
+         <div class="optionalSkills"id="foot_1">
+                   <div class="option">
+                     <h2>Optional skills Missing</h2>
+                   </div>
+                   <hr class="line">
+                   <div class="option1">
+                     <ul class="MissedSkills"id="show">
+                     <ul id="optionalMiss_1"></ul>
+                     </ul>
+                   </div>
+         </div>
+      </div>
+
+   </footer>
+   <script>
+      function func(){
+         let file=document.querySelector("#file").files[0];
+         let sel=document.querySelector("#role");
+         if(sel.value===""){
+            alert("Role is Not Selected");
+            return;}
+         if(!file){
+            alert("File is Not Uploaded");
+            return;}
+         let reader=new FileReader();
+         reader.readAsText(file);
+         let resumeText;
+         reader.onload=function(){
+         resumeText=reader.result.toLowerCase();
+         let v=sel.value.toLowerCase();
+             if(v==='frontend developer'){
+                 frontendScore(resumeText);}
+             else if(v==='backend developer'){
+                  backendScore(resumeText);}
+             else if(v=='fullstack developer'){
+                  fullstack(resumeText);}
+             else{
+                   javadeveloper(resumeText);}}}
+        function frontendScore(resumeText){
+            let corekeywords=["html","css","javascript","React","Angular"];
+            let coretools=["git","gitub","webpack"];
+            let actionTools=["Designed","Optimized","Implemented"];
+            const coreWeight=3;
+            const toolsWeight=2;
+            const actionWeight=2;
+            let score=0;
+            let maxScore=(corekeywords.length*coreWeight)+
+            (coretools.length*toolsWeight)+(actionTools.length*actionWeight);
+            corekeywords.forEach(skill=>{
+            if(resumeText.includes(skill)){
+               score+=coreWeight;
+            }})
+            coretools.forEach(skill=>{
+            if(resumeText.includes(skill)){
+               score+=toolsWeight;
+            }
+            })
+            actionTools.forEach(skill=>{
+             if(resumeText.includes(skill)){
+               score+=actionWeight;
+            }
+            })
+             let finalScore=Math.round((score/maxScore)*100);
+             document.querySelector("#info").value=finalScore+"%";
+             let MandatorySkills=["html5","css3","javascript","react.js"];
+             let OptionalSkills=["typescript","accessibility","teamwork","SEO Basics"];
+             let ct1=calculateMandotaryScore(resumeText,MandatorySkills);
+             let ct2=calculateOptionalScore(resumeText,OptionalSkills);
+             document.querySelector("#info1").value=ct1+"/4";
+             document.querySelector("#info2").value=ct2+"/4";
+             if(ct1==4){
+               document.querySelector("#tick").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick").textContent="❌";
+             }
+
+             if(ct2>0){
+               document.querySelector("#tick1").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick1").textContent="❌"
+             }
+            
+             if(ct1==4 && ct2>0){
+               document.querySelector("#tick2").textContent="✅";
+             }
+             else{
+               document.querySelector("#tick2").textContent="❌";
+             }
+               let [matched,missed] =match(resumeText, corekeywords);
+               let list= document.querySelector("#MatchedSkills_1");
+               let list1=document.querySelector("#MissedSkills_1");
+               list.innerHTML = "";
+               list1.innerHTML= "";
+               matched.forEach(skill => {
+                      let li = document.createElement("li");
+                      li.textContent = skill;
+                      list.appendChild(li);});
+               missed.forEach(skill=>{
+                      let li=document.createElement("li");
+                      li.textContent=skill;
+                      list1.appendChild(li);
+               })
+              let optionmatched=(resumeText,OptionalSkills);
+               let list2=document.querySelector("#optionalMiss_1");
+               list2.innerHTML="";
+               optionmatched.forEach(skill=>{
+                  let li=document.createElement("li");
+                  li.textContent=skill;
+                  list2.appendChild(li); })
+         }
+            function backendScore(resumeText)
+            {
+               resumeText=resumeText.toLowerCase();
+               let corekeywords=["Server-side Programming","Node.js","Express.js","Django","MongoDB"]
+               let coretools=["Git","Postman","Cloud","Docker"];
+               let actionTools=["Authentication","Authorization","CRUD Operations","MVC Architecture","JSON"];
+               const coreWeight=3;
+               const toolsWeight=2;
+               const actionWeight=2;
+               let score=0;
+               let maxScore=(corekeywords.length*coreWeight)+
+               (coretools.length*toolsWeight)+(actionTools.length*actionWeight);
+                corekeywords.forEach(skill=>{
+                if(resumeText.includes(skill.toLowerCase())){
+                score+=coreWeight; }})
+                coretools.forEach(skill=>{
+                if(resumeText.includes(skill.toLowerCase())){
+                    score+=toolsWeight;}})
+                 actionTools.forEach(skill=>{
+                if(resumeText.includes(skill.toLowerCase())){
+                    score+=actionWeight;}})
+                let finalScore=Math.round((score/maxScore)*100);
+                document.querySelector("#info").value=finalScore+"%";
+                let MandatorySkills=["Server-side language","REST APIs","Database","Authentication"];
+                let OptionalSkills=["Microservices","gitup","git","cloud"];
+                let ct1=calculateMandotaryScore(resumeText,MandatorySkills);
+                let ct2=calculateOptionalScore(resumeText,OptionalSkills);
+                document.querySelector("#info1").value=ct1+"/4";
+                document.querySelector("#info2").value=ct2+"/4";
+             if(ct1==4){
+               document.querySelector("#tick").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick").textContent="❌";
+             }
+
+             if(ct2>0){
+               document.querySelector("#tick1").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick1").textContent="❌"
+             }
+            
+             if(ct1==4 && ct2>0){
+               document.querySelector("#tick2").textContent="✅";
+             }
+             else{
+               document.querySelector("#tick2").textContent="❌";
+             }
+               let [matched,missed] =match(resumeText, corekeywords);
+               let list= document.querySelector("#MatchedSkills_1");
+               let list1=document.querySelector("#MissedSkills_1");
+               list.innerHTML = "";
+               list1.innerHTML= "";
+               matched.forEach(skill => {
+                      let li = document.createElement("li");
+                      li.textContent = skill;
+                      list.appendChild(li);});
+               missed.forEach(skill=>{
+                      let li=document.createElement("li");
+                      li.textContent=skill;
+                      list1.appendChild(li);
+               })
+               let optionmatched=(resumeText,OptionalSkills);
+               let list2=document.querySelector("#optionalMiss_1");
+               list2.innerHTML="";
+               optionmatched.forEach(skill=>{
+                  let li=document.createElement("li");
+                  li.textContent=skill;
+                  list2.appendChild(li); })
+            }
+       function fullstack(resumeText)
+            {
+            resumeText=resumeText.toLowerCase();
+            let corekeywords=["HTML5","CSS3","JavaScript","React.js","Node.js","Express.js","CRUD Operations","OOP"];
+            let coretools=["Spring Boot","Docker","Postman","MySQL","PostgreSQL"];
+            let actionTools=["Scalability","Cloud Deployment","Performance Optimization"];
+            const coreWeight=3;
+            const toolsWeight=2;
+            const actionWeight=2;
+            let score=0;
+            let maxScore=(corekeywords.length*coreWeight)+
+            (coretools.length*toolsWeight)+(actionTools.length*actionWeight);
+            corekeywords.forEach(skill=>{
+            if(resumeText.includes(skill.toLowerCase())){
+               score+=coreWeight;}})
+            coretools.forEach(skill=>{
+            if(resumeText.includes(skill.toLowerCase())){
+               score+=toolsWeight;}})
+            actionTools.forEach(skill=>{
+            if(resumeText.includes(skill.toLowerCase())){
+               score+=actionWeight;}})
+             let finalScore=Math.round((score/maxScore)*100);
+             document.querySelector("#info").value=finalScore+"%";
+             let MandatorySkills=["JavaScript","React.js","Node.js ","Spring Boot","Database Management"];
+             let OptionalSkills=["Docker","System Design","Cloud Deployment","git","Testing","web Security","gitup"];
+             let ct1=calculateMandotaryScore(resumeText,MandatorySkills);
+             let ct2=calculateOptionalScore(resumeText,OptionalSkills);
+             document.querySelector("#info1").value=ct1+"/4";
+             document.querySelector("#info2").value=ct2+"/4";
+             if(ct1==4){
+               document.querySelector("#tick").textContent="✅";
+             }
+             else{
+               document.querySelector("#tick").textContent="❌";
+             }
+
+             if(ct2>0){
+               document.querySelector("#tick1").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick1").textContent="❌"
+             }
+            
+             if(ct1==4 && ct2>0){
+               document.querySelector("#tick2").textContent="✅";
+             }
+             else{
+               document.querySelector("#tick2").textContent="❌";
+             }
+               let [matched,missed] =match(resumeText,corekeywords);
+               let list= document.querySelector("#MatchedSkills_1");
+               let list1=document.querySelector("#MissedSkills_1");
+               list.innerHTML = "";
+               list1.innerHTML= "";
+               matched.forEach(skill => {
+                      let li = document.createElement("li");
+                      li.textContent = skill;
+                      list.appendChild(li);});
+               missed.forEach(skill=>{
+                      let li=document.createElement("li");
+                      li.textContent=skill;
+                      list1.appendChild(li);
+               })
+               let optionmatched=(resumeText,OptionalSkills);
+               let list2=document.querySelector("#optionalMiss_1");
+               list2.innerHTML="";
+               optionmatched.forEach(skill=>{
+                  let li=document.createElement("li");
+                  li.textContent=skill;
+                  list2.appendChild(li); })
+            }
+       function javadeveloper(resumeText)
+            {
+               resumeText=resumeText.toLowerCase();
+               let corekeywords=["Core Java","OOP Concepts","Collections Framework","Exception Handling","File Handling"];
+               let coretools=["Spring Boot","Eclipse","MySQL","Git"];
+               let actionTools=["Design Patterns","Microservices","Dependency Injection"];
+               const coreWeight=3;
+               const toolsWeight=2;
+               const actionWeight=2;
+               let score=0;
+               let maxScore=(corekeywords.length*coreWeight)+
+               (coretools.length*toolsWeight)+(actionTools.length*actionWeight);
+               corekeywords.forEach(skill=>{
+               if(resumeText.includes(skill.toLowerCase())){
+               score+=coreWeight;}})
+               coretools.forEach(skill=>{
+                if(resumeText.includes(skill.toLowerCase())){
+               score+=toolsWeight;}})
+               actionTools.forEach(skill=>{
+               if(resumeText.includes(skill.toLowerCase())){
+               score+=actionWeight;}})
+               let finalScore=Math.round((score/maxScore)*100);
+               document.querySelector("#info").value=finalScore+"%";
+               let MandatorySkills=["Core Java","OOPs","Spring Boot","JDBC"];
+               let OptionalSkills=["Spring Security","Microservices","Design Patterns","Multithreading","Docker"];
+               let ct1=calculateMandotaryScore(resumeText,MandatorySkills);
+               let ct2=calculateOptionalScore(resumeText,OptionalSkills);
+             document.querySelector("#info1").value=ct1+"/4";
+             document.querySelector("#info2").value=ct2+"/4";
+             if(ct1==4){
+               document.querySelector("#tick").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick").textContent="❌";
+             }
+
+             if(ct2>0){
+               document.querySelector("#tick1").textContent="✅"
+             }
+             else{
+               document.querySelector("#tick1").textContent="❌"
+             }
+            
+             if(ct1==4 && ct2>0){
+               document.querySelector("#tick2").textContent="✅";
+             }
+             else{
+               document.querySelector("#tick2").textContent="❌";
+             }
+               let [matched,missed] =match(resumeText, corekeywords);
+               let list= document.querySelector("#MatchedSkills_1");
+               let list1=document.querySelector("#MissedSkills_1");
+               list.innerHTML = "";
+               list1.innerHTML= "";
+               matched.forEach(skill => {
+                      let li = document.createElement("li");
+                      li.textContent = skill;
+                      list.appendChild(li);});
+               missed.forEach(skill=>{
+                      let li=document.createElement("li");
+                      li.textContent=skill;
+                      list1.appendChild(li);
+               })
+               let optionmatched=(resumeText,OptionalSkills);
+               let list2=document.querySelector("#optionalMiss_1");
+               list2.innerHTML="";
+               optionmatched.forEach(skill=>{
+                  let li=document.createElement("li");
+                  li.textContent=skill;
+                  list2.appendChild(li); })
+            }
+               function calculateMandotaryScore(resumeText,MandatorySkills){
+                        let count=0;
+                        MandatorySkills.forEach(skill=>{
+                        if(resumeText.includes(skill.toLowerCase())){
+                              count++;}})
+                        return count;}
+               function calculateOptionalScore(resumeText,OptionalSkills){
+                     let count=0;
+                     OptionalSkills.forEach(skill=>{
+                     if(resumeText.includes(skill.toLowerCase())){
+                        count++;}})
+                     return count;}
+               function match(resumeText,corekeywords){
+                       resumeText=resumeText.toLowerCase();
+                       let matched=[];
+                       let missed=[];
+                       corekeywords.forEach(skill=>{
+                       if(resumeText.includes(skill.toLowerCase())){
+                        matched.push(skill);}
+                     else{
+                        missed.push(skill);
+                     }})
+                       return [matched,missed];
+                     }
+               function optionalMiss(resumeText,optionalSkills){
+                  resumeText=resumeText.toLowerCase();
+                  let missed=[];
+                  optionalSkills.forEach(skill=>{
+                     if(!resumeText.includes(skill.toLowerCase())){
+                        missed.push(skill);
+                     }
+                  })
+                  return missed;
+               }
+   </script>
+</body>
+</html>

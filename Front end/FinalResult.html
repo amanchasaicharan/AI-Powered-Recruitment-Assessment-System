@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    <link rel="stylesheet"href="FinalResult.css">
+</head>
+<body>
+    <header>
+        <div class="head">
+           <h1><b>Final Assessment Result</b></h1>
+        </div>
+    </header>
+    <div class="space"></div>
+    <main>
+        <div class="outer">
+            <div class="space"></div>
+                  <div class="mainbox1">
+                              <div class="mainbox1_header">
+                                <h2 id="g1">Performance Summary</h2>
+                              </div>
+                              <div class="mainbox1_body">
+                                <div class="box1"id="g2">
+                                    <h2 id="st">Total Score</h2>
+                                    <div class="space"></div>
+                                    <h2 id="sc"class="Tl">30</h2>
+                                </div>
+                                <div class="box2"id="g2">
+                                    <h2 id="st">Accuracy</h2>
+                                    <div class="space"></div>
+                                    <h2 id="sc"class="A">30%</h2>
+                                </div>
+                                <div class="box3"id="g2">
+                                    <h2 id="st">Questions Solved</h2>
+                                    <div class="space"></div>
+                                    <h2 id="sc"class="Q"><span id="Q1"></span>/3</h2>
+                                </div>
+                                <div class="box4"id="g2">
+                                    <h2 id="st">Time Taken</h2>
+                                    <div class="space"></div>
+                                    <h2 id="sc"class="T">30</h2>
+                                </div>
+                              </div>
+                  </div>
+                  <div class="space"></div>
+                  <div class="mainbox2">
+                            <div class="mainbox2_header">
+                                <h3 id="g1">Detailed Results</h3>
+                            </div>
+                            <div class="mainbox2_body">
+                                <table border="1" id="resultTable">
+                                    <thead>
+                                     <tr>
+                                         <th>Q.No</th>
+                                         <th>Question</th>
+                                         <th>Status</th>
+                                         <th>Time Spent</th>
+                                         <th>Score</th>
+                                     </tr>
+                                     </thead>
+
+                                 <tbody id="tableBody"></tbody>
+</table></div>
+                  </div>
+
+                  <div class="space"></div>
+
+                  <div class="mainbox3">
+                        <div class="mainbox3_1"id="g3">
+                            <h1 id="greeting">✅ Congratulations</h1>
+                        </div>
+                        <hr class="line">
+                        <div class="space"></div>
+                        <div class="mainbox3_2"id="g3">
+                           <pre><p style="font-size: 20px;">You are <span id="g4">Passed</span> the Assessment</p></pre>
+                        </div>
+                        <hr class="line">
+                        <div class="space"></div>
+                        <div class="mainbox3_3"id="g3">
+                          <pre><p style="font-size: 20px;">🤝 <span id="g5">Eligible</span>  For Next Round: Hr Interview</p></pre>
+                        </div>
+                  </div>
+        </div>
+    </main>
+    <script>
+       window.onload=function(){
+        let exam_id=localStorage.getItem("exam_id");
+        fetch("http://localhost:3000/Final?id="+exam_id,{
+            method:'GET'
+        }).then(result=>result.json())
+         .then(data => {
+              let score=data.result[0].total_score;
+              let accuracy=Math.floor((score/30)*100);
+                document.querySelector(".Tl").innerText=data.result[0].total_score;
+                document.querySelector(".T").innerText=data.result[0].time_taken;
+                document.querySelector(".A").innerText=accuracy+"%";
+                document.querySelector("#Q1").innerText=score/10;
+                if(score<20){
+                    document.querySelector("#greeting").innerText="Better Luck Next Time!";
+                    document.querySelector("#g4").innerText="Failed";
+                    document.querySelector("#g4").style.color="red";
+                    document.querySelector("#g5").style.color="red";
+                    document.querySelector("#g5").innerText="Not Eligible";
+                }
+            })
+
+        fetch("http://localhost:3000/Each_Question?id="+exam_id,{
+            method:'GET'
+        }).then(result=>result.json())
+        .then(data=>{
+      const tableBody = document.getElementById("tableBody");
+      tableBody.innerHTML = "";
+
+      let questions = data.result;
+
+      questions.forEach((item, index) => {
+
+        let row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${item.Question_name}</td>
+          <td>
+            <span class="${item.passed == 1 ? 'solved' : 'unsolved'}">
+              ${item.passed == 1 ? 'Solved' : 'Unsolved'}
+            </span>
+          </td>
+          <td>${item.time_taken} sec</td>
+          <td>${item.score} / 10</td>`;
+
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(err => console.log(err));
+}
+    </script>
+</body>
+</html>

@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Interview Evaluation Report</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:#f5f7fb;
+    color:#172033;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:158px;
+    background:#091a36;
+    color:white;
+    padding:22px 12px;
+    display:flex;
+    flex-direction:column;
+    flex-shrink:0;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    font-size:16px;
+    margin-bottom:38px;
+}
+
+.brandIcon{
+    width:24px;
+    height:24px;
+    border-radius:6px;
+    background:#6447ed;
+    display:grid;
+    place-items:center;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.nav div{
+    padding:11px 9px;
+    border-radius:7px;
+    font-size:12px;
+    color:#dce4f4;
+}
+
+.nav div:first-child{
+    background:#10254a;
+}
+
+.bottomCard{
+    margin-top:auto;
+    background:#102a55;
+    border-radius:10px;
+    padding:12px 9px;
+    font-size:10px;
+    color:#d8e0ef;
+}
+
+.bottomCard strong{
+    display:block;
+    color:white;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.startBtn{
+    border:0;
+    background:#5840ee;
+    color:white;
+    border-radius:5px;
+    padding:8px;
+    width:100%;
+    margin-top:10px;
+    font-weight:600;
+    font-size:11px;
+}
+
+/* ================= MAIN ================= */
+
+.main{
+    flex:1;
+    padding:20px 18px 30px;
+    max-width:1150px;
+    margin:auto;
+}
+
+.header{
+    margin-bottom:17px;
+}
+
+.header h1{
+    font-size:18px;
+    margin-bottom:5px;
+}
+
+.header p{
+    font-size:11px;
+    color:#7a8497;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:212px;
+    border-radius:15px;
+    background:linear-gradient(110deg,#3271e9,#6126db);
+    color:white;
+    padding:28px 35px;
+    display:flex;
+    align-items:center;
+}
+
+.scoreBox{
+    width:28%;
+    text-align:center;
+}
+
+.circle{
+    width:137px;
+    height:137px;
+    border-radius:50%;
+    margin:auto;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+
+    border:9px solid #4fd69b;
+    border-left-color:#72b8ee;
+    border-bottom-color:#58d9a3;
+}
+
+.circle .num{
+    font-size:46px;
+    font-weight:700;
+    line-height:1;
+}
+
+.circle .out{
+    font-size:13px;
+    margin-top:6px;
+}
+
+.scoreLabel{
+    font-size:13px;
+    font-weight:600;
+    margin-top:8px;
+}
+
+.heroInfo{
+    flex:1;
+    padding-left:25px;
+    border-left:1px solid rgba(255,255,255,.3);
+}
+
+.heroInfo h2{
+    font-size:20px;
+    margin-bottom:9px;
+}
+
+.heroInfo p{
+    font-size:12px;
+    line-height:1.65;
+    max-width:410px;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:12px;
+    background:#f2fff8;
+    color:#15945e;
+    border-radius:22px;
+    padding:8px 15px;
+    font-size:11px;
+    font-weight:700;
+}
+
+.eligibility{
+    width:22%;
+    border-left:1px solid rgba(255,255,255,.3);
+    text-align:center;
+    padding-left:20px;
+}
+
+.trophy{
+    font-size:42px;
+    margin-bottom:5px;
+}
+
+.eligibility h3{
+    font-size:16px;
+}
+
+.eligibility p{
+    font-size:11px;
+    margin-top:7px;
+    line-height:1.5;
+}
+
+/* ================= METRICS ================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+    margin-top:18px;
+}
+
+.card{
+    background:white;
+    border:1px solid #e7eaf1;
+    border-radius:10px;
+    padding:16px;
+    box-shadow:0 2px 7px rgba(31,43,67,.06);
+}
+
+.metric{
+    min-height:113px;
+}
+
+.metricTop{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.metricIcon{
+    width:31px;
+    height:31px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    font-size:17px;
+    background:#f0eaff;
+}
+
+.metric h4{
+    font-size:11px;
+}
+
+.metric .value{
+    font-size:14px;
+    font-weight:700;
+    margin-top:9px;
+}
+
+.metric .rating{
+    font-size:10px;
+    color:#2a9b68;
+    font-weight:600;
+    margin-top:4px;
+}
+
+.bar{
+    height:6px;
+    background:#edf0f5;
+    border-radius:8px;
+    margin-top:11px;
+    overflow:hidden;
+}
+
+.bar span{
+    display:block;
+    height:100%;
+    background:#159f68;
+    border-radius:8px;
+}
+
+.totalCard{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.totalCard .big{
+    font-size:25px;
+    color:#4139d8;
+    font-weight:700;
+}
+
+.totalCard .big small{
+    font-size:15px;
+}
+
+.totalCard .rating{
+    color:#4139d8;
+    font-size:11px;
+    font-weight:700;
+    margin-top:5px;
+}
+
+/* ================= ANALYSIS ================= */
+
+.analysis{
+    margin-top:14px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    background:white;
+    border:1px solid #e7eaf1;
+    border-radius:11px;
+
+    padding:18px;
+}
+
+.analysis section{
+    padding:0 17px;
+}
+
+.analysis section+section{
+    border-left:1px solid #e6e8ee;
+}
+
+.sectionTitle{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:12px;
+}
+
+.strengthTitle{
+    color:#15965f;
+}
+
+.improveTitle{
+    color:#e44242;
+}
+
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.listItem{
+    font-size:10.5px;
+    line-height:1.5;
+    display:flex;
+    gap:8px;
+}
+
+.good{
+    color:#1b9b65;
+    font-weight:700;
+}
+
+.bad{
+    color:#e34545;
+    font-weight:700;
+}
+
+.summary{
+    margin-top:16px;
+    background:#f5f5ff;
+    border:1px solid #e3e2ff;
+    border-radius:10px;
+    padding:15px;
+}
+
+.summary h3{
+    color:#293dc0;
+    font-size:13px;
+    margin-bottom:9px;
+}
+
+.summary p{
+    font-size:11px;
+    line-height:1.6;
+    color:#394154;
+}
+
+/* ================= QUESTIONS ================= */
+
+.questions{
+    margin-top:20px;
+}
+
+.qHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:9px;
+}
+
+.qHeader h2{
+    font-size:14px;
+}
+
+.qHeader span{
+    font-size:10px;
+    color:#737d91;
+}
+
+.question{
+    background:white;
+    border:1px solid #e5e8ef;
+    border-radius:9px;
+    margin-bottom:6px;
+    overflow:hidden;
+}
+
+.qRow{
+    height:45px;
+    display:flex;
+    align-items:center;
+    padding:0 14px;
+    cursor:pointer;
+}
+
+.qNum{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#5542e7;
+    color:white;
+    display:grid;
+    place-items:center;
+    font-size:10px;
+    margin-right:13px;
+}
+
+.qText{
+    font-size:11px;
+    flex:1;
+}
+
+.qScore{
+    background:#eaf9f1;
+    color:#1b9963;
+    border-radius:14px;
+    padding:5px 10px;
+    font-size:10px;
+    font-weight:700;
+    margin-right:15px;
+}
+
+.qRating{
+    font-size:10px;
+    color:#15965f;
+    font-weight:600;
+    width:65px;
+}
+
+.arrow{
+    font-size:15px;
+    color:#6c7380;
+}
+
+.details{
+    display:none;
+    border-top:1px solid #edf0f4;
+    padding:14px 18px;
+    background:#fbfcfe;
+}
+
+.details.show{
+    display:block;
+}
+
+.details h4{
+    font-size:11px;
+    margin:9px 0 5px;
+    color:#35405a;
+}
+
+.details p,
+.details li{
+    font-size:10px;
+    line-height:1.55;
+    color:#505a6d;
+}
+
+.details ul{
+    padding-left:18px;
+}
+
+/* ================= BUTTONS ================= */
+
+.footerBtns{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:20px;
+}
+
+.footerBtns button{
+    border:1px solid #cdd2df;
+    background:white;
+    color:#4b5261;
+    border-radius:7px;
+    padding:10px 25px;
+    font-size:11px;
+    font-weight:600;
+}
+
+.footerBtns .primary{
+    background:#5838e9;
+    color:white;
+    border-color:#5838e9;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero{
+        flex-wrap:wrap;
+    }
+
+    .scoreBox,
+    .eligibility{
+        width:50%;
+    }
+
+    .heroInfo{
+        width:100%;
+        order:3;
+        margin-top:20px;
+        border-left:0;
+        padding-left:0;
+    }
+
+    .analysis{
+        grid-template-columns:1fr;
+    }
+
+    .analysis section+section{
+        border-left:0;
+        border-top:1px solid #e6e8ee;
+        margin-top:15px;
+        padding-top:15px;
+    }
+}
+
+@media(max-width:560px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding:20px;
+    }
+
+    .scoreBox,
+    .eligibility{
+        width:100%;
+    }
+
+    .eligibility{
+        border:0;
+        margin-top:20px;
+        padding:0;
+    }
+
+    .qRating{
+        display:none;
+    }
+}
+
+@media print{
+
+    .sidebar,
+    .footerBtns{
+        display:none;
+    }
+
+    .main{
+        max-width:none;
+    }
+
+    .question .details{
+        display:block;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        <div class="brandIcon">✣</div>
+        AI Interviewer
+    </div>
+
+    <div class="nav">
+
+        <div>⌂ &nbsp; Dashboard</div>
+
+        <div>▣ &nbsp; Interview History</div>
+
+        <div>▥ &nbsp; Analytics</div>
+
+        <div>♙ &nbsp; Profile</div>
+
+        <div>⚙ &nbsp; Settings</div>
+
+    </div>
+
+    <div class="bottomCard">
+
+        <strong>✣ Improve with AI</strong>
+
+        Practice more to improve your skills
+
+        <button class="startBtn">
+            Start Practice
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+    <div class="header">
+
+        <h1>
+            Interview Evaluation Report
+        </h1>
+
+        <p id="dateText">
+            Completed on —
+        </p>
+
+    </div>
+
+
+    <!-- ================= HERO ================= -->
+
+    <div class="hero">
+
+        <div class="scoreBox">
+
+            <div class="circle">
+
+                <div
+                    class="num"
+                    id="overallScore">
+                    0
+                </div>
+
+                <div class="out">
+                    /100
+                </div>
+
+            </div>
+
+            <div class="scoreLabel">
+                Overall Score
+            </div>
+
+        </div>
+
+
+        <div class="heroInfo">
+
+            <h2 id="performanceTitle">
+                Performance
+            </h2>
+
+            <p id="overallFeedback">
+                Loading your interview evaluation...
+            </p>
+
+            <span
+                class="badge"
+                id="eligibilityBadge">
+
+                ✓ Evaluation Complete
+
+            </span>
+
+        </div>
+
+
+        <div class="eligibility">
+
+            <div
+                class="trophy"
+                id="trophy">
+                🏆
+            </div>
+
+            <h3 id="eligibilityTitle">
+                Eligible
+            </h3>
+
+            <p id="eligibilityText">
+                Your interview result is being evaluated.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= SCORE CARDS ================= -->
+
+    <div
+        class="grid"
+        id="metrics">
+    </div>
+
+
+    <!-- ================= STRENGTHS / IMPROVEMENTS ================= -->
+
+    <div class="analysis">
+
+        <section>
+
+            <div class="sectionTitle strengthTitle">
+                💪 Strengths
+            </div>
+
+            <div
+                class="list"
+                id="strengths">
+            </div>
+
+        </section>
+
+
+        <section>
+
+            <div class="sectionTitle improveTitle">
+                ↗ Areas for Improvement
+            </div>
+
+            <div
+                class="list"
+                id="improvements">
+            </div>
+
+        </section>
+
+
+        <section
+            style="
+                grid-column:1/-1;
+                border-left:0;
+                margin-top:15px;
+                padding-top:15px;
+                border-top:1px solid #e6e8ee;
+            ">
+
+            <div class="summary">
+
+                <h3>
+                    🤖 AI Summary
+                </h3>
+
+                <p id="summaryText">
+                    —
+                </p>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ================= QUESTION ANALYSIS ================= -->
+
+    <div class="questions">
+
+        <div class="qHeader">
+
+            <h2>
+                Question-by-Question Analysis
+            </h2>
+
+            <span>
+
+                Total Questions:
+                <b id="totalQuestions">0</b>
+
+                ·
+
+                Average Score:
+                <b id="averageScore">0</b>/100
+
+            </span>
+
+        </div>
+
+
+        <div id="questionList"></div>
+
+    </div>
+
+
+    <!-- ================= BUTTONS ================= -->
+
+    <div class="footerBtns">
+
+        <button onclick="history.back()">
+            ← Back to Dashboard
+        </button>
+
+        <button
+            class="primary"
+            onclick="location.href='HrScreen.html'">
+
+            🎙 Start New Interview
+
+        </button>
+
+        <button onclick="window.print()">
+
+            ⇩ Download Report
+
+        </button>
+
+    </div>
+
+</main>
+
+</div>
+
+
+<script>
+
+/*
+===========================================================
+IMPORTANT
+===========================================================
+
+In HrScreen.html:
+
+sessionStorage.setItem(
+    "interviewResult",
+    JSON.stringify(result)
+);
+
+window.location.href = "FinalResult.html";
+
+===========================================================
+*/
+
+
+/* Get AI result from sessionStorage */
+
+const raw =
+    sessionStorage.getItem("interviewResult");
+
+
+/* If result doesn't exist */
+
+if(!raw){
+
+    document.getElementById(
+        "overallFeedback"
+    ).textContent =
+        "No interview result was found. Complete the interview first.";
+
+}
+
+
+/* Result exists */
+
+else{
+
+    try{
+
+        const result =
+            JSON.parse(raw);
+
+        console.log(
+            "FINAL RESULT:",
+            result
+        );
+
+        renderResult(result);
+
+    }
+
+    catch(error){
+
+        console.error(
+            "Invalid interview result:",
+            error
+        );
+
+        document.getElementById(
+            "overallFeedback"
+        ).textContent =
+            "Unable to read the interview result.";
+
+    }
+
+}
+
+
+/* =========================================================
+   MAIN RENDER FUNCTION
+========================================================= */
+
+function renderResult(result){
+
+    const overall =
+        result.overallEvaluation || {};
+
+    const evaluations =
+        Array.isArray(result.evaluations)
+            ? result.evaluations
+            : [];
+
+
+    /* Overall score */
+
+    const score =
+        Number(
+            overall.overallScore || 0
+        );
+
+
+    /* Rating */
+
+    const rating =
+        overall.rating ||
+        getRating(score);
+
+
+    /* Eligibility */
+
+    const eligible =
+        Boolean(
+            overall.eligible
+        );
+
+
+    /* ================= HERO ================= */
+
+    document.getElementById(
+        "overallScore"
+    ).textContent = score;
+
+
+    document.getElementById(
+        "performanceTitle"
+    ).textContent =
+        rating +
+        (score >= 80
+            ? " Performance. 🎉"
+            : " Performance");
+
+
+    document.getElementById(
+        "overallFeedback"
+    ).textContent =
+        overall.overallFeedback ||
+        "No overall feedback available.";
+
+
+    document.getElementById(
+        "eligibilityTitle"
+    ).textContent =
+        eligible
+            ? "Eligible"
+            : "Not Eligible";
+
+
+    document.getElementById(
+        "eligibilityText"
+    ).textContent =
+        eligible
+            ? "You are eligible for the next round of interview."
+            : "You are not eligible for the next round based on this evaluation.";
+
+
+    document.getElementById(
+        "trophy"
+    ).textContent =
+        eligible
+            ? "🏆"
+            : "📋";
+
+
+    document.getElementById(
+        "eligibilityBadge"
+    ).textContent =
+        eligible
+            ? "✓ Recommended for Next Round"
+            : "✕ Needs Improvement";
+
+
+    document.getElementById(
+        "dateText"
+    ).textContent =
+        "Completed on " +
+        new Date().toLocaleString();
+
+
+    /* ================= SUMMARY ================= */
+
+    document.getElementById(
+        "summaryText"
+    ).textContent =
+        overall.overallFeedback ||
+        "No AI summary available.";
+
+
+    /* ================= QUESTIONS ================= */
+
+    document.getElementById(
+        "totalQuestions"
+    ).textContent =
+        evaluations.length;
+
+
+    /* Average score */
+
+    const average =
+        evaluations.length
+
+        ?
+
+        Math.round(
+
+            evaluations.reduce(
+                (sum,e) =>
+                    sum +
+                    Number(
+                        e.totalScore || 0
+                    ),
+                0
+            )
+
+            /
+
+            evaluations.length
+
+        )
+
+        :
+
+        0;
+
+
+    document.getElementById(
+        "averageScore"
+    ).textContent =
+        average;
+
+
+    /* Render everything */
+
+    renderMetrics(
+        evaluations
+    );
+
+    renderStrengths(
+        overall.strengths
+    );
+
+    renderImprovements(
+        overall.improvements
+    );
+
+    renderQuestions(
+        evaluations
+    );
+
+}
+
+
+/* =========================================================
+   SCORE CARDS
+========================================================= */
+
+function renderMetrics(
+    evaluations
+){
+
+    const names = [
+
+        [
+            "relevance",
+            "Relevance",
+            20,
+            "🎯"
+        ],
+
+        [
+            "clarity",
+            "Clarity",
+            15,
+            "💡"
+        ],
+
+        [
+            "confidence",
+            "Confidence",
+            15,
+            "📈"
+        ],
+
+        [
+            "communication",
+            "Communication",
+            15,
+            "💬"
+        ],
+
+        [
+            "specificity",
+            "Specificity",
+            15,
+            "📝"
+        ],
+
+        [
+            "professionalism",
+            "Professionalism",
+            10,
+            "💼"
+        ],
+
+        [
+            "completeness",
+            "Completeness",
+            10,
+            "📋"
+        ]
+
+    ];
+
+
+    const totals = {};
+
+
+    names.forEach(
+        ([key]) => {
+            totals[key] = 0;
+        }
+    );
+
+
+    /* Add scores from all questions */
+
+    evaluations.forEach(
+        e => {
+
+            const scores =
+                e.scores || {};
+
+
+            names.forEach(
+                ([key]) => {
+
+                    totals[key] +=
+                        Number(
+                            scores[key] || 0
+                        );
+
+                }
+            );
+
+        }
+    );
+
+
+    const count =
+        evaluations.length || 1;
+
+
+    let html = "";
+
+
+    names.forEach(
+        ([key,label,max,icon]) => {
+
+            const value =
+                Math.round(
+                    (
+                        totals[key] /
+                        count
+                    ) * 10
+                ) / 10;
+
+
+            const percent =
+                Math.min(
+                    100,
+                    Math.max(
+                        0,
+                        value /
+                        max *
+                        100
+                    )
+                );
+
+
+            html += `
+
+                <div class="card metric">
+
+                    <div class="metricTop">
+
+                        <div class="metricIcon">
+                            ${icon}
+                        </div>
+
+                        <h4>
+                            ${label}
+                        </h4>
+
+                    </div>
+
+
+                    <div class="value">
+                        ${value}/${max}
+                    </div>
+
+
+                    <div class="rating">
+                        ${metricRating(
+                            value,
+                            max
+                        )}
+                    </div>
+
+
+                    <div class="bar">
+
+                        <span
+                            style="
+                                width:${percent}%
+                            ">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    /* Total score card */
+
+    const overallScore =
+        Number(
+            document.getElementById(
+                "overallScore"
+            ).textContent || 0
+        );
+
+
+    html += `
+
+        <div class="card totalCard">
+
+            <div
+                style="
+                    font-size:11px;
+                    margin-bottom:7px
+                ">
+
+                Total Score
+
+            </div>
+
+
+            <div class="big">
+
+                ${overallScore}
+                <small>/100</small>
+
+            </div>
+
+
+            <div class="rating">
+
+                ${getRating(
+                    overallScore
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.getElementById(
+        "metrics"
+    ).innerHTML =
+        html;
+
+}
+
+
+/* =========================================================
+   STRENGTHS
+========================================================= */
+
+function renderStrengths(
+    items
+){
+
+    const list =
+        Array.isArray(items)
+            ? items
+            : [];
+
+
+    document.getElementById(
+        "strengths"
+    ).innerHTML =
+
+        list.length
+
+        ?
+
+        list.map(
+            x => `
+
+                <div class="listItem">
+
+                    <span class="good">
+                        ●
+                    </span>
+
+                    <span>
+                        ${escapeHTML(x)}
+                    </span>
+
+                </div>
+
+            `
+        ).join("")
+
+        :
+
+        `
+
+        <div class="listItem">
+
+            <span class="good">
+                ●
+            </span>
+
+            <span>
+                No major strengths identified.
+            </span>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   IMPROVEMENTS
+========================================================= */
+
+function renderImprovements(
+    items
+){
+
+    const list =
+        Array.isArray(items)
+            ? items
+            : [];
+
+
+    document.getElementById(
+        "improvements"
+    ).innerHTML =
+
+        list.length
+
+        ?
+
+        list.map(
+            x => `
+
+                <div class="listItem">
+
+                    <span class="bad">
+                        ●
+                    </span>
+
+                    <span>
+                        ${escapeHTML(x)}
+                    </span>
+
+                </div>
+
+            `
+        ).join("")
+
+        :
+
+        `
+
+        <div class="listItem">
+
+            <span class="bad">
+                ●
+            </span>
+
+            <span>
+                No specific improvements provided.
+            </span>
+
+        </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   QUESTIONS
+========================================================= */
+
+function renderQuestions(
+    evaluations
+){
+
+    const container =
+        document.getElementById(
+            "questionList"
+        );
+
+
+    container.innerHTML =
+        evaluations.map(
+            (e,index) => {
+
+                const score =
+                    Number(
+                        e.totalScore || 0
+                    );
+
+
+                return `
+
+                    <div class="question">
+
+
+                        <div
+                            class="qRow"
+                            onclick="
+                                toggleQuestion(
+                                    ${index}
+                                )
+                            ">
+
+
+                            <div class="qNum">
+
+                                ${index + 1}
+
+                            </div>
+
+
+                            <div class="qText">
+
+                                ${escapeHTML(
+                                    e.question ||
+                                    "Question"
+                                )}
+
+                            </div>
+
+
+                            <div class="qScore">
+
+                                ${score}/100
+
+                            </div>
+
+
+                            <div class="qRating">
+
+                                ${escapeHTML(
+                                    e.rating ||
+                                    getRating(score)
+                                )}
+
+                            </div>
+
+
+                            <div
+                                class="arrow"
+                                id="arrow-${index}">
+
+                                ⌄
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div
+                            class="details"
+                            id="details-${index}">
+
+
+                            <h4>
+                                Candidate Answer
+                            </h4>
+
+
+                            <p>
+
+                                ${escapeHTML(
+                                    e.answer ||
+                                    "No answer provided."
+                                )}
+
+                            </p>
+
+
+                            <h4>
+                                Score Breakdown
+                            </h4>
+
+
+                            <p>
+
+                                Relevance:
+                                ${e.scores?.relevance ?? 0}/20
+
+                                ·
+
+                                Clarity:
+                                ${e.scores?.clarity ?? 0}/15
+
+                                ·
+
+                                Confidence:
+                                ${e.scores?.confidence ?? 0}/15
+
+                                ·
+
+                                Communication:
+                                ${e.scores?.communication ?? 0}/15
+
+                                ·
+
+                                Specificity:
+                                ${e.scores?.specificity ?? 0}/15
+
+                                ·
+
+                                Professionalism:
+                                ${e.scores?.professionalism ?? 0}/10
+
+                                ·
+
+                                Completeness:
+                                ${e.scores?.completeness ?? 0}/10
+
+                            </p>
+
+
+                            <h4>
+                                Strengths
+                            </h4>
+
+                            ${arrayHTML(
+                                e.strengths
+                            )}
+
+
+                            <h4>
+                                Improvements
+                            </h4>
+
+                            ${arrayHTML(
+                                e.improvements
+                            )}
+
+
+                            <h4>
+                                AI Feedback
+                            </h4>
+
+                            <p>
+
+                                ${escapeHTML(
+                                    e.feedback ||
+                                    "No feedback available."
+                                )}
+
+                            </p>
+
+
+                            <h4>
+                                Suggested Answer
+                            </h4>
+
+                            <p>
+
+                                ${escapeHTML(
+                                    e.suggestedAnswer ||
+                                    "No suggested answer available."
+                                )}
+
+                            </p>
+
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* =========================================================
+   OPEN/CLOSE QUESTION
+========================================================= */
+
+function toggleQuestion(
+    index
+){
+
+    const el =
+        document.getElementById(
+            "details-" + index
+        );
+
+
+    const arrow =
+        document.getElementById(
+            "arrow-" + index
+        );
+
+
+    el.classList.toggle(
+        "show"
+    );
+
+
+    arrow.textContent =
+        el.classList.contains("show")
+            ? "⌃"
+            : "⌄";
+
+}
+
+
+/* =========================================================
+   ARRAY HTML
+========================================================= */
+
+function arrayHTML(
+    arr
+){
+
+    if(
+        !Array.isArray(arr) ||
+        arr.length === 0
+    ){
+
+        return `
+            <p>
+                None provided.
+            </p>
+        `;
+
+    }
+
+
+    return `
+
+        <ul>
+
+            ${arr.map(
+                x => `
+
+                    <li>
+                        ${escapeHTML(x)}
+                    </li>
+
+                `
+            ).join("")}
+
+        </ul>
+
+    `;
+
+}
+
+
+/* =========================================================
+   METRIC RATING
+========================================================= */
+
+function metricRating(
+    value,
+    max
+){
+
+    const percent =
+        value /
+        max *
+        100;
+
+
+    if(percent >= 90)
+        return "Excellent";
+
+    if(percent >= 80)
+        return "Very Good";
+
+    if(percent >= 70)
+        return "Good";
+
+    if(percent >= 60)
+        return "Average";
+
+    return "Needs Improvement";
+
+}
+
+
+/* =========================================================
+   OVERALL RATING
+========================================================= */
+
+function getRating(
+    score
+){
+
+    if(score >= 90)
+        return "Excellent";
+
+    if(score >= 80)
+        return "Very Good";
+
+    if(score >= 70)
+        return "Good";
+
+    if(score >= 60)
+        return "Average";
+
+    if(score >= 40)
+        return "Needs Improvement";
+
+    return "Poor";
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+function escapeHTML(
+    value
+){
+
+    return String(value)
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+</script>
+
+</body>
+</html>

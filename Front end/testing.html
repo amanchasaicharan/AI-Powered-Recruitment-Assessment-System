@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Compiler Test</title>
+</head>
+
+<body>
+
+<h2>Java Compiler Test</h2>
+
+<textarea id="code" rows="10" cols="60">
+public class Main {
+  public static void main(String[] args){
+    System.out.println("Hello Java");
+  }
+}
+</textarea>
+
+<br><br>
+
+<button id="runBtn">Run Code</button>
+
+<h3>Output</h3>
+<pre id="output"></pre>
+
+<script>
+
+document.getElementById("runBtn").onclick = function(){
+
+let code = document.getElementById("code").value;
+
+fetch("http://localhost:3000/run-java",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({code:code})
+})
+.then(res=>res.text())
+.then(data=>{
+document.getElementById("output").innerText=data;
+});
+
+}
+
+</script>
+
+</body>
+</html>
